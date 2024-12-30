@@ -1,21 +1,23 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
 using ETouch = UnityEngine.InputSystem.EnhancedTouch;
 
 public class PlayerTouchMovement : MonoBehaviour
 {
-
-    [SerializeField] private Vector2 JoystickSize = new Vector2(200, 200);
     public FloatingJoystick Joystick;
     public NavMeshAgent playerNavMeshAgent;
     private Finger MovementFinger;
     public Vector2 MovementAmount;
     public Animator playerAnimator;
+    private Vector2 JoystickSize;
+    public GameObject enemyObj;
     void Start()
     {
         playerNavMeshAgent = GetComponent<NavMeshAgent>();
         playerAnimator = GetComponent<Animator>();
+        JoystickSize = new Vector2(Joystick.joyStickObj.sizeDelta.x, Joystick.joyStickObj.sizeDelta.y); 
     }
 
 
@@ -108,16 +110,34 @@ public class PlayerTouchMovement : MonoBehaviour
     }
     void Update()
     {
-        Vector3 scaledMovement = playerNavMeshAgent.speed * Time.deltaTime * new Vector3(MovementAmount.x, 0, MovementAmount.y);
+        if (MovementAmount != Vector2.zero)
+        {
+            Vector3 scaledMovement = playerNavMeshAgent.speed * Time.deltaTime * new Vector3(MovementAmount.x, 0, MovementAmount.y);
 
-        playerNavMeshAgent.Move(scaledMovement);
+            playerNavMeshAgent.Move(scaledMovement);
 
-        playerNavMeshAgent.transform.LookAt(playerNavMeshAgent.transform.position + scaledMovement, Vector3.up);
+            playerNavMeshAgent.transform.LookAt(playerNavMeshAgent.transform.position + scaledMovement, Vector3.up);
 
-        // print("MovementAmount.x: " + MovementAmount.x);
-        // print("MovementAmount.y: " + MovementAmount.y);
+            playerAnimator.SetFloat("MoveX", MovementAmount.x);
+            playerAnimator.SetFloat("MoveZ", MovementAmount.y);
+        }
+        else
+        {
+            playerNavMeshAgent.Move(Vector3.zero);
+            playerAnimator.SetFloat("MoveX", MovementAmount.x);
+            playerAnimator.SetFloat("MoveZ", MovementAmount.y);
+            transform.LookAt(enemyObj.transform);
+            UpdateAttack();
+        }
+        
+    }
 
-        playerAnimator.SetFloat("MoveX", MovementAmount.x);
-        playerAnimator.SetFloat("MoveZ", MovementAmount.y);
+    private void UpdateAttack()
+    {
+        if (Keyboard.current.anyKey.wasPressedThisFrame)
+        {
+            playerAnimator.SetTrigger("Attack");
+            Debug.Log("A key was pressed");
+        }
     }
 }
