@@ -126,7 +126,7 @@ public class PlayerTouchMovement : MonoBehaviour
             playerNavMeshAgent.Move(Vector3.zero);
             playerAnimator.SetFloat("MoveX", MovementAmount.x);
             playerAnimator.SetFloat("MoveZ", MovementAmount.y);
-            transform.LookAt(enemyObj.transform);
+            //transform.LookAt(enemyObj.transform);
             UpdateAttack();
         }
         
@@ -137,7 +137,6 @@ public class PlayerTouchMovement : MonoBehaviour
         if (Keyboard.current.anyKey.wasPressedThisFrame)
         {
             playerAnimator.SetTrigger("Attack");
-            Debug.Log("A key was pressed");
         }
     }
 }
