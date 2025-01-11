@@ -59,8 +59,24 @@ sysinfo.txt
 *.apk
 *.aab
 *.unitypackage
-*.unitypackage.meta
 *.app
+
+Assets/TextMesh*
+Assets/Editor Default Resources/
+Assets/ExternalDependencyManager/
+Assets/Firebase
+Assets/Plugins
+Assets/GeneratedLocalRepo/
+Assets/google-services*
+Assets/StreamingAssets/Google-services*
+Assets/GooglePlayGames/
+Assets/GoogleMobileAds/
+ProejctSettings/
+Packages/
+
+
+ProjectSettings/AdnroidResolverDependencies.xml
+Keystore/
 
 # Crashlytics generated file
 crashlytics-build.properties

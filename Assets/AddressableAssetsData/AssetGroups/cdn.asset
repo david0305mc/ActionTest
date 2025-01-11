@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: cdn
+  m_EditorClassIdentifier: 
+  m_GroupName: cdn
+  m_GUID: 9c8900444c6ceee48844fc861b3bb454
+  m_SerializeEntries:
+  - m_GUID: 9d07cc956912961438e076261c037906
+    m_Address: Assets/03_Prefab/UI/Popup/PopupOk.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - cdn
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc0fc84d4e26f4440964e2394136b123
+    m_Address: Assets/03_Prefab/UI/Popup/PopupYesNo.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - cdn
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: d0a073009fd45714088cbc89772e3f03, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 5b78546afbbecb9468f37c536fc95add, type: 2}
+    - {fileID: 11400000, guid: 72b99e5e19c36124a80cf3e8e816f6e3, type: 2}
