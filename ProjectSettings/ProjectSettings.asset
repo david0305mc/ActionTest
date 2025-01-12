@@ -818,6 +818,7 @@ PlayerSettings:
   webWasm2023: 0
   scriptingDefineSymbols:
     Android: DEV
+    Standalone: DEV
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
