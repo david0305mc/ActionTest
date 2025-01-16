@@ -10,6 +10,10 @@ public class ProjectileManager : MonoBehaviour
     [SerializeField] private Button button;
 
 
+    private void Update()
+    {
+        Debug.DrawLine(src.transform.position, dst.transform.position, Color.red);
+    }
     private void Awake()
     {
         button.onClick.AddListener(() =>
