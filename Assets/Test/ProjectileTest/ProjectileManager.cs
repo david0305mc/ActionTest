@@ -3,6 +3,7 @@ using UnityEngine.UI;
 public class ProjectileManager : MonoBehaviour
 {
     [SerializeField] private ProjectileLinearTest projectilePrefab;
+    [SerializeField] private BezierArrow bezierArrowPrefab;
 
     [SerializeField] private GameObject src;
     [SerializeField] private GameObject dst;
@@ -18,8 +19,12 @@ public class ProjectileManager : MonoBehaviour
     }
     public void Fire()
     {
-        var obj = Lean.Pool.LeanPool.Spawn(projectilePrefab, src.transform.position, Quaternion.identity, transform);
-        obj.target = dst.transform;
+        var obj = Lean.Pool.LeanPool.Spawn(bezierArrowPrefab, src.transform.position, Quaternion.identity, transform);
+        obj.pointA = obj.transform.position;
+
+        obj.pointC = dst.transform.position;
+        obj.pointB = (obj.transform.position + dst.transform.position) / 2;
+        obj.pointB += Vector3.up * 3;
         //obj.Fire(dst.transform);
     }
 }
