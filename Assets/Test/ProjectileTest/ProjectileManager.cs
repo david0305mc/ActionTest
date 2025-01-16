@@ -24,7 +24,7 @@ public class ProjectileManager : MonoBehaviour
 
         obj.pointC = dst.transform.position;
         obj.pointB = (obj.transform.position + dst.transform.position) / 2;
-        obj.pointB += Vector3.up * 3;
+        obj.pointB += Vector3.up * 10;
         //obj.Fire(dst.transform);
     }
 }
