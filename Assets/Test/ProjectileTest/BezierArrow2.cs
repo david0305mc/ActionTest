@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class BezierArrow2 : MonoBehaviour
 {
-
+    [SerializeField] private Rigidbody rigidBody;
     private List<Vector3> controlPoints;
     public float speed = 30f; // 미사일 속도
     
@@ -28,8 +28,8 @@ public class BezierArrow2 : MonoBehaviour
             Vector3 pos = CalculateBezierPoint(timeElapse);
             Vector3 nextPos = CalculateBezierPoint(nextElpase);
 
-            transform.position = pos;
-            transform.rotation = Quaternion.LookRotation(nextPos - pos);
+            rigidBody.Move(pos, Quaternion.LookRotation(nextPos - pos));
+            //transform.rotation = Quaternion.LookRotation(nextPos - pos);
             timeElapse = nextElpase;
             await UniTask.Yield();
         }
