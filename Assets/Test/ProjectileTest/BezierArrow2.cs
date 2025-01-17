@@ -6,18 +6,22 @@ public class BezierArrow2 : MonoBehaviour
 {
 
     private List<Vector3> controlPoints;
+    public float speed = 30f; // 미사일 속도
+    
     public async UniTask Fire(Vector3 _target0, Vector3 _target1)
     {
         controlPoints = new List<Vector3>();
         controlPoints.Add(transform.position);
         controlPoints.Add(_target0);
         controlPoints.Add(_target1);
+        
+        float curveLength = CalculateBezierCurveLength(5);
 
         float timeElapse = 0f;
 
         while (timeElapse < 1f)
         {
-            float nextElpase = timeElapse + Time.deltaTime;
+            float nextElpase = timeElapse + Time.deltaTime / curveLength * speed;
             if (nextElpase > 1f)
                 nextElpase = 1f;
 
@@ -26,11 +30,33 @@ public class BezierArrow2 : MonoBehaviour
 
             transform.position = pos;
             transform.rotation = Quaternion.LookRotation(nextPos - pos);
+            timeElapse = nextElpase;
+            await UniTask.Yield();
+        }
+
+        // After Dst
+        timeElapse = 0f;
+        while (timeElapse < 100f)
+        {
+            transform.position += transform.forward * speed * Time.deltaTime;
             timeElapse += Time.deltaTime;
             await UniTask.Yield();
         }
     }
 
+    private float CalculateBezierCurveLength(int _resolution)
+    {
+        float length = 0f;
+        Vector3 previousPoint = controlPoints[0];
+        for (int i = 1; i <= _resolution; i++)
+        {
+            float t = i / (float)_resolution;
+            Vector3 currPos = CalculateBezierPoint(t);
+            length += Vector3.Distance(previousPoint, currPos);
+            previousPoint = currPos;
+        }
+        return length;
+    }
     private Vector3 CalculateBezierPoint(float t)
     {
         int n = controlPoints.Count - 1; // 제어점의 개수 - 1 (차수)
