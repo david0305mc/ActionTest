@@ -7,14 +7,10 @@ public class BezierArrow2 : MonoBehaviour
     [SerializeField] private Rigidbody rigidBody;
     private List<Vector3> controlPoints;
     public float speed = 30f; // 미사일 속도
-    
-    public async UniTask Fire(Vector3 _target0, Vector3 _target1)
+
+    public async UniTask Fire(List<Vector3> _controlPoints)
     {
-        controlPoints = new List<Vector3>();
-        controlPoints.Add(transform.position);
-        controlPoints.Add(_target0);
-        controlPoints.Add(_target1);
-        
+        controlPoints = _controlPoints;
         float curveLength = CalculateBezierCurveLength(5);
 
         float timeElapse = 0f;

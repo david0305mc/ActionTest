@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class BezierArrow : MonoBehaviour
 {
+    public Rigidbody rigidBody;
     public Vector3 pointA; // 시작점 (A)
     public Vector3 pointB; // 통과점 (B)
     public Vector3 pointC; // 진행 방향의 끝점 (C)
