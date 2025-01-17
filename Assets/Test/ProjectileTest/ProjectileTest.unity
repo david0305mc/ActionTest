@@ -1551,7 +1551,7 @@ MonoBehaviour:
   src: {fileID: 1723041574}
   dst: {fileID: 207734030}
   button: {fileID: 1819717236}
-  missileCount: 5
+  missileCount: 60
   missileSpeed: 5
   spawnInterval: 1
 --- !u!1 &1236572460
