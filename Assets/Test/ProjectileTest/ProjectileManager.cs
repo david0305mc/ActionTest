@@ -54,6 +54,12 @@ public class ProjectileManager : MonoBehaviour
         //obj.Fire(dst.transform);
     }
 
+    public void RadialTest()
+    {
+        float currentAngle = 0f;
+
+
+    }
     public void FireRadial()
     {
         float angleStep = 360f / missileCount; // 미사일 간 각도
@@ -61,7 +67,7 @@ public class ProjectileManager : MonoBehaviour
 
         for (int i = 0; i < missileCount; i++)
         {
-            float angleInRadians = currentAngle + Mathf.Deg2Rad;
+            float angleInRadians = currentAngle * Mathf.Deg2Rad;
 
             //Vector3 missileDirection = new Vector3(Mathf.Cos(angleInRadians), 0f, Mathf.Sign(angleInRadians));
             //BezierArrow obj = Lean.Pool.LeanPool.Spawn(bezierArrowPrefab, src.transform.position, Quaternion.identity, transform);
