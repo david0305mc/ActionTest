@@ -18,6 +18,7 @@ public class MapTestUnitObj : MonoBehaviour
     {
         fsm = new StateMachine<UnitStates, StateDriver>(this);
         fsm.ChangeState(UnitStates.Idle);
+        agent.updateRotation = false;
     }
     private void Update()
     {
@@ -30,7 +31,6 @@ public class MapTestUnitObj : MonoBehaviour
         Debug.Log("Idle_Enter");
         animator.SetFloat("MoveX", 0);
         animator.SetFloat("MoveZ", 0);
-        UpdateRotate(transform.forward);
     }
     private void Idle_Update()
     {
@@ -75,7 +75,7 @@ public class MapTestUnitObj : MonoBehaviour
     }
     private void UpdateRotate(Vector3 _target)
     {
-        //transform.LookAt(_target, Vector3.up);
+        transform.LookAt(new Vector3(_target.x, transform.position.y, _target.z), Vector3.up);
     }
     public bool TryGetValidNavMeshPosition(Vector3 center, float radius, out Vector3 result)
     {
