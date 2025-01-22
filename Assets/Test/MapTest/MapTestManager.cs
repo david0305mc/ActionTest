@@ -13,8 +13,11 @@ public class MapTestManager : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        MapTestUnitObj unitObj = Lean.Pool.LeanPool.Spawn(unitObjPrefab, spawnPos, field);
-        unitObj.InitObj();
+        for (int i = 0; i < 10; i++)
+        {
+            MapTestUnitObj unitObj = Lean.Pool.LeanPool.Spawn(unitObjPrefab, spawnPos, field);
+            unitObj.InitObj();
+        }
     }
         
 }

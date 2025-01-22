@@ -137,4 +137,17 @@ public class MapTestPlayerObj : MonoBehaviour
             playerAnimator.SetTrigger("Attack");
         }
     }
+
+    public void Attack()
+    {
+        var collder = Physics.OverlapSphere(transform.position, 7f, 1 << LayerMask.NameToLayer("Enemy"));
+        foreach(var item in collder)
+        {
+            var enemyObj = item.transform.GetComponent<MapTestUnitObj>();
+            if (enemyObj != null)
+            {
+                enemyObj.Knockback(transform.position);
+            }
+        }
+    }
 }
