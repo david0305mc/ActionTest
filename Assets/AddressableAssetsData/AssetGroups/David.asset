@@ -15,10 +15,28 @@ MonoBehaviour:
   m_GroupName: David
   m_GUID: ae1397c3ba0119747af42c8fcdb1c0bc
   m_SerializeEntries:
+  - m_GUID: 2dbf1531796d5ef4da243096af03e81a
+    m_Address: Assets/Test/AddressableTest/Res/A.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - TestA
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 30908711ed2e9464cbf0d9c95cd3d403
+    m_Address: Assets/Test/AddressableTest/Res/B.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - TestA
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 66db609f2d979094c9615751b62f127f
     m_Address: Assets/Test/AddressableTest/Res/Plane.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6cce8374f41de3b4e9ea8c89a8780de6
+    m_Address: Assets/Test/AddressableTest/Res/C.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - TestA
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: d0a073009fd45714088cbc89772e3f03, type: 2}

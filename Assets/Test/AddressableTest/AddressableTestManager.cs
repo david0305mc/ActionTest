@@ -1,37 +1,50 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class AddressableTestManager : MonoBehaviour
 {
-    [SerializeField] private Button buttonA;
-    [SerializeField] private Button buttonB;
+    [SerializeField] private Button buttonLoad;
+    [SerializeField] private Button buttonInstantiage;
+    [SerializeField] private Button buttonRelease;
+    [SerializeField] private Button buttonGoToSecond;
 
-    [SerializeField] private AssetReferenceGameObject cubeObj;
-    private List<GameObject> gameObjs = new List<GameObject>();
+
+    public Dictionary<string, GameObject> objDic = new Dictionary<string, GameObject>();
 
     private void Awake()
     {
-        buttonA.onClick.AddListener(() =>
+        buttonLoad.onClick.AddListener(() =>
         {
-            cubeObj.InstantiateAsync().Completed += (obj) =>
+            foreach (var item in TestResourceManager.Instance.pathList)
             {
-                gameObjs.Add(obj.Result);
-            };
+                TestResourceManager.Instance.LoadAssets(item);
+            }
         });
-        buttonB.onClick.AddListener(() =>
+        buttonInstantiage.onClick.AddListener(() =>
         {
-            if (gameObjs.Count == 0)
+            foreach (var name in TestResourceManager.Instance.pathList)
             {
-                return;
+                var itemObj = Lean.Pool.LeanPool.Spawn(TestResourceManager.Instance.prefabDic[name], transform.position + Random.insideUnitSphere * 1f, Quaternion.identity, transform);
+                objDic[name] = itemObj;
             }
-
-            for (int i = gameObjs.Count - 1; i >= 0; i--)
+        });
+        buttonRelease.onClick.AddListener(() =>
+        {
+            foreach (var name in TestResourceManager.Instance.pathList)
             {
-                Addressables.ReleaseInstance(gameObjs[i]);
-                gameObjs.RemoveAt(i);
+                Lean.Pool.LeanPool.Despawn(objDic[name]);
+                objDic.Remove(name);
             }
+        });
+        buttonGoToSecond.onClick.AddListener(() =>
+        {
+            SceneManager.LoadScene("SecondScene");
         });
     }
+
+
 }
