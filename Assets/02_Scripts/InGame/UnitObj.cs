@@ -13,6 +13,7 @@ public class UnitObj : UnitBaseObj
     [SerializeField] private Animator animator;
     [SerializeField] private Transform hudRoot;
     private Transform target;
+    private Vector3 rollingTargetPos;
     private StateMachine<UnitStates, StateDriver> fsm;
     private UnitHUD unitHUD;
     private float targetElapse;
@@ -96,24 +97,33 @@ public class UnitObj : UnitBaseObj
         agent.enabled = true;
         agent.isStopped = false;
         animator.SetTrigger("Rolling");
+        rollingTargetPos = target.position;
     }
 
     private void Rolling_Update()
     {
         if (agent.enabled)
         {
-            agent.SetDestination(target.position);
+            agent.SetDestination(rollingTargetPos);
         }
 
-        var vector = target.position - transform.position;
+        var vector = rollingTargetPos - transform.position;
 
         animator.SetFloat("MoveX", vector.normalized.x);
         animator.SetFloat("MoveZ", vector.normalized.z);
 
-        if (Vector3.Distance(transform.position, target.position) < 0.3f)
+        if (Vector3.Distance(transform.position, rollingTargetPos) < 1f)
         {
-            targetElapse = 2f;
-            fsm.ChangeState(UnitStates.Idle);
+            Vector3 dir = (rollingTargetPos - transform.position).normalized;
+            rollingTargetPos = rollingTargetPos + dir * 2f;
+
+            if (NavMesh.Raycast(transform.position, rollingTargetPos, out var hit, NavMesh.AllAreas))
+            {
+                rollingTargetPos = hit.position;
+                Debug.Log("Block");
+            }
+            
+            fsm.ChangeState(UnitStates.RollingExtraMove);
             return;
         }
     }
@@ -125,7 +135,22 @@ public class UnitObj : UnitBaseObj
     }
     private void RollingExtraMove_Update()
     {
+        if (agent.enabled)
+        {
+            agent.SetDestination(rollingTargetPos);
+        }
 
+        var vector = rollingTargetPos - transform.position;
+
+        animator.SetFloat("MoveX", vector.normalized.x);
+        animator.SetFloat("MoveZ", vector.normalized.z);
+
+        if (Vector3.Distance(transform.position, rollingTargetPos) < 0.5f)
+        {
+            targetElapse = 2f;
+            fsm.ChangeState(UnitStates.Idle);
+            return;
+        }
     }
 
     private void Approach_Enter()
