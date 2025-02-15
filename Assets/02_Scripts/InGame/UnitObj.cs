@@ -1,5 +1,6 @@
 using MonsterLove.StateMachine;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class StateDriver
 {
@@ -14,7 +15,8 @@ public class UnitObj : UnitBaseObj
     private Transform target;
     private StateMachine<UnitStates, StateDriver> fsm;
     private UnitHUD unitHUD;
-
+    private float targetElapse;
+    private float stateElapse;
 
     protected override void Awake()
     {
@@ -23,6 +25,7 @@ public class UnitObj : UnitBaseObj
         fsm = new StateMachine<UnitStates, StateDriver>(this);
         fsm.ChangeState(UnitStates.Idle);
         Utill.SetLayerRecursively(gameObject, LayerMask.NameToLayer(GameDefine.enemyLayerName));
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
     }
 
     public override void InitObj(BattleUnitData _unitData)
@@ -65,16 +68,61 @@ public class UnitObj : UnitBaseObj
     private void Idle_Enter()
     {
         //Debug.Log("Idle_Enter");
+        stateElapse = 0f;
         agent.enabled = true;
         animator.SetFloat("MoveX", 0);
         animator.SetFloat("MoveZ", 0);
+        animator.SetTrigger("Idle");
     }
     private void Idle_Update()
     {
+        stateElapse += Time.deltaTime;
+        if (stateElapse < targetElapse)
+        {
+            return;
+        }
+
         if (Vector3.Distance(transform.position, target.position) <= GameDefine.EnemyApprochDist)
         {
-            fsm.ChangeState(UnitStates.Approach);
+            //fsm.ChangeState(UnitStates.Approach);
+            fsm.ChangeState(UnitStates.Rolling);
         }
+    }
+
+    private void Rolling_Enter()
+    {
+        agent.enabled = true;
+        animator.SetTrigger("Rolling");
+    }
+
+    private void Rolling_Update()
+    {
+        if (agent.enabled)
+        {
+            agent.SetDestination(target.position);
+        }
+
+        var vector = target.position - transform.position;
+
+        animator.SetFloat("MoveX", vector.normalized.x);
+        animator.SetFloat("MoveZ", vector.normalized.z);
+
+        if (Vector3.Distance(transform.position, target.position) < 0.3f)
+        {
+            targetElapse = 2f;
+            fsm.ChangeState(UnitStates.Idle);
+            return;
+        }
+    }
+
+    private void RollingExtraMove_Enter()
+    {
+
+        
+    }
+    private void RollingExtraMove_Update()
+    {
+
     }
 
     private void Approach_Enter()

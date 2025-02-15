@@ -35,6 +35,7 @@ public class PlayerObj : UnitBaseObj
         fsm.ChangeState(UnitStates.Idle);
         agent.speed = 3f;
         isMeleeAttack = true;
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
     }
 
     void Start()
@@ -109,7 +110,6 @@ public class PlayerObj : UnitBaseObj
 
             Joystick.Knob.anchoredPosition = knobPosition;
             MovementAmount = knobPosition / maxMovement;
-            Debug.Log($"MovementAmount {MovementAmount}");
         }
     }
 

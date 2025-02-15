@@ -73,6 +73,8 @@ public enum UnitStates
     Dodge,
     Attack,
     KnockBack,
+    Rolling,
+    RollingExtraMove,
 }
 
 public enum AnimationEventType

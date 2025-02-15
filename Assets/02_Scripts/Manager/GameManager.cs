@@ -56,7 +56,7 @@ public partial class GameManager : SingletonMono<GameManager>
     public void InitGame()
     {
         nowStageId = 1;
-        SpawnEnemySet();
+        //SpawnEnemySet();
         SpawnStart();
     }
 
