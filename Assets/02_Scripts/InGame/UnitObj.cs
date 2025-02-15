@@ -32,6 +32,8 @@ public class UnitObj : UnitBaseObj
     {
         base.InitObj(_unitData);
         agent.speed = 3f;
+        agent.angularSpeed = 1000f;
+        //agent.acceleration = 1000f;
         target = GameManager.Instance.PlayerObj.transform;
 
         unitHUD = Lean.Pool.LeanPool.Spawn(ResourceManager.Instance.UnitHUDPrefab, hudRoot.position, Quaternion.identity, hudRoot).GetComponent<UnitHUD>();
@@ -60,7 +62,6 @@ public class UnitObj : UnitBaseObj
     private void Update()
     {
         fsm.Driver.Update.Invoke();
-     
         //agent.Move(scaledMovement);
         //agent.transform.LookAt(playerNavMeshAgent.transform.position + scaledMovement, Vector3.up);
     }
@@ -69,7 +70,8 @@ public class UnitObj : UnitBaseObj
     {
         //Debug.Log("Idle_Enter");
         stateElapse = 0f;
-        agent.enabled = true;
+        agent.isStopped = true;
+        agent.enabled = false;
         animator.SetFloat("MoveX", 0);
         animator.SetFloat("MoveZ", 0);
         animator.SetTrigger("Idle");
@@ -92,6 +94,7 @@ public class UnitObj : UnitBaseObj
     private void Rolling_Enter()
     {
         agent.enabled = true;
+        agent.isStopped = false;
         animator.SetTrigger("Rolling");
     }
 
