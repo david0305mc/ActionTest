@@ -119,7 +119,7 @@ public class UnitObj : UnitBaseObj
 
             if (NavMesh.Raycast(transform.position, rollingTargetPos, out var hit, NavMesh.AllAreas))
             {
-                rollingTargetPos = hit.position;
+                rollingTargetPos = new Vector3(hit.position.x, transform.position.y, hit.position.z) - dir * 0.1f;
                 Debug.Log("Block");
             }
             
@@ -145,7 +145,7 @@ public class UnitObj : UnitBaseObj
         animator.SetFloat("MoveX", vector.normalized.x);
         animator.SetFloat("MoveZ", vector.normalized.z);
 
-        if (Vector3.Distance(transform.position, rollingTargetPos) < 0.5f)
+        if (Vector3.Distance(transform.position, rollingTargetPos) < 1f)
         {
             targetElapse = 2f;
             fsm.ChangeState(UnitStates.Idle);
