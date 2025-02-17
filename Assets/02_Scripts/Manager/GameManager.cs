@@ -178,6 +178,7 @@ public partial class GameManager : SingletonMono<GameManager>
         PlayerObj.ProjectileFireEvent = (_targetUnit) =>
         {
             ProjectileLinear projectile = Lean.Pool.LeanPool.Spawn(projectileTest, PlayerObj.transform.position + Vector3.up, Quaternion.identity, field);
+            projectile.gameObject.layer = LayerMask.NameToLayer("Player");
             var uid = UserDataManager.Instance.GenerateFlashUID();
             projectile.Fire(_targetUnit).Forget();
             projectile.DamageEvent = (_unitbaseObj) =>
