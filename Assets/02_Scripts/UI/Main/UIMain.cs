@@ -14,7 +14,7 @@ public class UIMain : SingletonMono<UIMain>
         base.OnSingletonAwake();
         spawnEnemeyBtn.onClick.AddListener(() =>
         {
-            GameManager.Instance.SpawnEnemy();
+            GameManager.Instance.SpawnPet();
         });
         dodgeBtn.onClick.AddListener(() =>
         {

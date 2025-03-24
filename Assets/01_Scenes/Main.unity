@@ -2913,6 +2913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DontDestroyOnLoad: 0
+  petObjPrefab: {fileID: -4344210510198707878, guid: 08aa2837b6a883f4da5c77092a2b774b, type: 3}
   enemyObjPrefab: {fileID: 746460768412255203, guid: 02e2a8d0ea32c46ab908f44980f3e5c6, type: 3}
   enemySpawnPoint: {fileID: 1323857683}
   playerObjPrefab: {fileID: 3045959068923988499, guid: 7e592ed9e36168f47929424dc5233f7a, type: 3}

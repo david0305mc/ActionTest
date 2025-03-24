@@ -6,6 +6,7 @@ using System;
 
 public partial class GameManager : SingletonMono<GameManager>
 {
+    [SerializeField] private PetObj petObjPrefab;
     [SerializeField] private UnitObj enemyObjPrefab;
     [SerializeField] private Transform enemySpawnPoint;
     private List<SpawnPoint> enemySpawnPoints = new List<SpawnPoint>();
@@ -119,6 +120,18 @@ public partial class GameManager : SingletonMono<GameManager>
         Debug.LogError("KillPlayerObj");
     }
 
+    public void SpawnPet()
+    {
+        int npcCount = 8;
+        for (int i = 0; i < npcCount; i++)
+        {
+            PetObj petObj = Lean.Pool.LeanPool.Spawn(petObjPrefab, Vector3.zero, Quaternion.identity, PlayerObj.transform);
+
+            petObj.npcIndex = i;
+            petObj.totalNPCs = npcCount;
+            petObj.radius = 2;
+        }
+    }
     public void SpawnEnemy()
     {
         BattleUnitData enemyData = UserDataManager.Instance.AddEnemyData(0);
