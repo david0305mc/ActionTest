@@ -13,7 +13,7 @@ public class PetObj : MonoBehaviour
     void Start()
     {
         angle = 2 * Mathf.PI * npcIndex / totalNPCs;
-        offset = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
+        offset = new Vector3(Mathf.Cos(angle), 1, Mathf.Sin(angle)) * radius;
     }
 
     void Update()

@@ -127,9 +127,10 @@ public partial class GameManager : SingletonMono<GameManager>
         {
             PetObj petObj = Lean.Pool.LeanPool.Spawn(petObjPrefab, Vector3.zero, Quaternion.identity, PlayerObj.transform);
 
+            petObj.transform.localScale = Vector3.one * 0.3f;
             petObj.npcIndex = i;
             petObj.totalNPCs = npcCount;
-            petObj.radius = 2;
+            petObj.radius = 0.7f;
         }
     }
     public void SpawnEnemy()
