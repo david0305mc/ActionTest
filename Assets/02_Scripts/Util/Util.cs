@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 using System.Security.Cryptography;
 using System.Linq;
 
-public partial class Utill
+public partial class Util
 {
     public static T MakeGameObject<T>(string objectname, Transform parent) where T : MonoBehaviour
     {
@@ -129,7 +129,7 @@ public partial class Utill
         //T target = new T();
         Type type = typeof(T);
 
-        // ÇÊµå º¹»ç
+        // ï¿½Êµï¿½ ï¿½ï¿½ï¿½ï¿½
         FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
         foreach (FieldInfo field in fields)
         {
@@ -137,7 +137,7 @@ public partial class Utill
             field.SetValue(target, value);
         }
 
-        // ¼Ó¼º º¹»ç
+        // ï¿½Ó¼ï¿½ ï¿½ï¿½ï¿½ï¿½
         PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
         foreach (PropertyInfo property in properties)
         {
@@ -197,7 +197,7 @@ public partial class Utill
             byte[] inputBytes = Encoding.UTF8.GetBytes(input);
             byte[] hashBytes = md5.ComputeHash(inputBytes);
 
-            // ¹ÙÀÌÆ® ¹è¿­À» 16Áø¼ö ¹®ÀÚ¿­·Î º¯È¯
+            // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½è¿­ï¿½ï¿½ 16ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
             StringBuilder sb = new StringBuilder();
             foreach (byte b in hashBytes)
             {
@@ -330,11 +330,11 @@ public static class PathInfo
     }
     public static Transform FindDeep(this Transform parent, string name)
     {
-        // ÇöÀç TransformÀÇ ÀÌ¸§ÀÌ ÀÏÄ¡ÇÏ¸é ¹ÝÈ¯
+        // ï¿½ï¿½ï¿½ï¿½ Transformï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ï¸ï¿½ ï¿½ï¿½È¯
         if (parent.name == name)
             return parent;
 
-        // ¸ðµç ÀÚ½ÄµéÀ» ¼øÈ¸ÇÏ¸ç °Ë»ö
+        // ï¿½ï¿½ï¿½ ï¿½Ú½Äµï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½Ï¸ï¿½ ï¿½Ë»ï¿½
         foreach (Transform child in parent)
         {
             Transform result = child.FindDeep(name);
@@ -342,7 +342,7 @@ public static class PathInfo
                 return result;
         }
 
-        // Ã£Áö ¸øÇÑ °æ¿ì null ¹ÝÈ¯
+        // Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ null ï¿½ï¿½È¯
         return null;
     }
 }

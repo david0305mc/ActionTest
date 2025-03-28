@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-public partial class Utill
+public partial class Util
 {
     public static string IntConvertCommaString(int _value)
     {
@@ -26,12 +26,12 @@ public partial class Utill
     private static string mLimitedTimeStringDHMS = "{0}D {1:00}:{2:00}:{3:00}";
     private static string mLimitedTimeStringHMS = "{0:00}:{1:00}:{2:00}";
     /// <summary>
-    /// ±â°£ÇÑÁ¤ ³²Àº½Ã°£Ç¥±â
+    /// ï¿½â°£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½Ç¥ï¿½ï¿½
     /// </summary>
     public static string ConvertSecToLimitedTime(int _seconds)
     {
         if (_seconds > 86400)
-        {   //ÇÏ·ç³Ñ°Ô ³²Àº °æ¿ì
+        {   //ï¿½Ï·ï¿½Ñ°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             int day = Mathf.FloorToInt(_seconds / 86400);
             _seconds -= day * 86400;
             int hour = Mathf.FloorToInt(_seconds / 3600);
@@ -41,7 +41,7 @@ public partial class Utill
             return string.Format(mLimitedTimeStringDHMS, day, hour, min, _seconds);
         }
         else if (_seconds > 0)
-        {   //ÇÏ·çµµ ¾È ³²Àº °æ¿ì
+        {   //ï¿½Ï·çµµ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             int hour = Mathf.FloorToInt(_seconds / 3600);
             _seconds -= hour * 3600;
             int min = Mathf.FloorToInt(_seconds / 60);

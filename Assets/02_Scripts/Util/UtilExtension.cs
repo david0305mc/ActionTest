@@ -39,7 +39,7 @@ public static class UtilExtension
             s.sprite = null;
             return;
         }
-        s.sprite = Utill.Load<Sprite>(path);
+        s.sprite = Util.Load<Sprite>(path);
     }
 
     public static void SetActiveRecursively(this GameObject obj, bool state)
@@ -62,7 +62,7 @@ public static class UtilExtension
 
     public static string GetCommaString(this int source)
     {
-        return Utill.IntConvertCommaString(source);
+        return Util.IntConvertCommaString(source);
     }
 
     public static List<int> ConvertStringToIntArray(this string source)

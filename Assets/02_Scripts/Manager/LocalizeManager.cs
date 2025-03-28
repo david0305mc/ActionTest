@@ -46,7 +46,7 @@ public class LocalizeManager : Singleton<LocalizeManager>
         string lang = PlayerPrefs.GetString("Language");
         if (!string.IsNullOrEmpty(lang))
         {
-            language = Utill.StirngToEnum<LANGUAGE_TYPE>(lang); 
+            language = Util.StirngToEnum<LANGUAGE_TYPE>(lang); 
             return;
         }
         
@@ -62,10 +62,10 @@ public class LocalizeManager : Singleton<LocalizeManager>
                 language = LANGUAGE_TYPE.JP;
                 break;
             case SystemLanguage.Chinese:
-            case SystemLanguage.ChineseSimplified: //°£Ã¼(Áß±¹)
+            case SystemLanguage.ChineseSimplified: //ï¿½ï¿½Ã¼(ï¿½ß±ï¿½)
                 language = LANGUAGE_TYPE.CN;
                 break;
-            case SystemLanguage.ChineseTraditional: //¹øÃ¼(´ë¸¸)
+            case SystemLanguage.ChineseTraditional: //ï¿½ï¿½Ã¼(ï¿½ë¸¸)
                 language = LANGUAGE_TYPE.TW;
                 break;
             //case SystemLanguage.Portuguese:

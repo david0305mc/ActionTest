@@ -83,7 +83,7 @@ public class PlayerObj : UnitBaseObj
     public override void InitObj(BattleUnitData _unitData)
     {
         base.InitObj(_unitData);
-        Utill.SetLayerRecursively(gameObject, LayerMask.NameToLayer(GameDefine.playerLayerName));
+        Util.SetLayerRecursively(gameObject, LayerMask.NameToLayer(GameDefine.playerLayerName));
     }
     private void HandleFingerMove(Finger movedFinger)
     {
@@ -301,7 +301,7 @@ public class PlayerObj : UnitBaseObj
         //    return;
         //}
 
-        UnitObj unitObj = Utill.FindTargetEnemy(transform.position, SeachDist, LayerMask.NameToLayer(GameDefine.enemyLayerName));
+        UnitObj unitObj = Util.FindTargetEnemy(transform.position, SeachDist, LayerMask.NameToLayer(GameDefine.enemyLayerName));
         if (unitObj != null)
         {
             targetData = unitObj.unitData;

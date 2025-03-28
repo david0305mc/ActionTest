@@ -25,7 +25,7 @@ public class UnitObj : UnitBaseObj
         hudRoot = transform;
         fsm = new StateMachine<UnitStates, StateDriver>(this);
         fsm.ChangeState(UnitStates.Idle);
-        Utill.SetLayerRecursively(gameObject, LayerMask.NameToLayer(GameDefine.enemyLayerName));
+        Util.SetLayerRecursively(gameObject, LayerMask.NameToLayer(GameDefine.enemyLayerName));
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
     }
 

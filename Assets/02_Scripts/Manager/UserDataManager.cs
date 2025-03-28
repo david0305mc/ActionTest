@@ -28,7 +28,7 @@ public class UserDataManager : Singleton<UserDataManager>
         }
         var saveData = JsonUtility.ToJson(BaseData);
         //saveData = Utill.EncryptXOR(saveData);
-        Utill.SaveFile(LocalFilePath, saveData);
+        Util.SaveFile(LocalFilePath, saveData);
     }
 
     public void InitData()
@@ -44,7 +44,7 @@ public class UserDataManager : Singleton<UserDataManager>
         InitData();
         if (File.Exists(LocalFilePath))
         {
-            var localData = Utill.LoadFromFile(LocalFilePath);
+            var localData = Util.LoadFromFile(LocalFilePath);
             //localData = Utill.EncryptXOR(localData);
             BaseData loadedData = JsonUtility.FromJson<BaseData>(localData);
 
@@ -54,7 +54,7 @@ public class UserDataManager : Singleton<UserDataManager>
             }
             else
             {
-                BaseData = Utill.MergeFields(BaseData, loadedData);
+                BaseData = Util.MergeFields(BaseData, loadedData);
             }
             //LocalData.UpdateRefData();
         }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public partial class Utill
+public partial class Util
 {
     public static UnitObj FindTargetEnemy(Vector3 _pos, float _searchRadius, int _targetLayer)
     {

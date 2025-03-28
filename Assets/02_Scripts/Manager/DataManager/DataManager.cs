@@ -30,10 +30,10 @@ public partial class DataManager : Singleton<DataManager>
 		{
 			if (tableName == "Localization")
 				continue;
-#if DEV
+#if !DEV
 			string data = Resources.Load<TextAsset>(Path.Combine("Data", $"{tableName}")).ToString();
 #else
-			string data = await Utill.LoadFromFileAsync(Path.Combine(LOCAL_CSV_PATH, $"{tableName}.csv"));
+			string data = await Util.LoadFromFileAsync(Path.Combine(LOCAL_CSV_PATH, $"{tableName}.csv"));
 #endif
 
 			try

@@ -25,3 +25,72 @@ public class PetObj : MonoBehaviour
         transform.position = GameManager.Instance.PlayerObj.transform.position + offset;
     }
 }
+
+
+namespace Test
+{
+    public class BaseObj<T> where T : BaseData
+    {
+        public T BaseData { get; set; }
+
+    }
+
+    public class AObj : BaseObj<Adata>
+    {
+        public void TestFun()
+        {
+
+        }
+    }
+
+    public class BObj : BaseObj<BData> { }
+
+    public class CObj: AObj 
+    { 
+        public void Fire<T>()  where T : Adata
+        { 
+
+        }
+    }
+
+    public class BaseData
+    {
+
+    }
+
+    public class Adata : BaseData
+    {
+    }
+
+    public class BData : BaseData
+    {
+    }
+
+
+    public class TestClass
+    {
+        private AObj playerObj;
+
+        private void Func2<T>(BaseObj<T> _param) where T : BaseData
+        {
+            AttackMessage<Adata>.Create(playerObj);
+        }
+    }
+
+    public struct AttackMessage<T> where T : BaseData
+    {
+        public BaseObj<T> attackerObj;
+
+        public static AttackMessage<T> Create(BaseObj<T> _attackerObj)    
+        {
+                AttackMessage<T> msg = new AttackMessage<T>()
+                {
+                    attackerObj = _attackerObj,
+                };
+                return msg;
+        }
+    
+    }
+    
+}
+

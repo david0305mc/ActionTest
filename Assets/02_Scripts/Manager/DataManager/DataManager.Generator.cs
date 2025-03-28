@@ -37,7 +37,7 @@ public partial class DataManager
     {
         foreach (var tableName in DataManager.tableNames)
         {
-            var data = Utill.LoadFromFile(Path.Combine(LOCAL_CSV_PATH, $"{tableName}.csv"));
+            var data = Util.LoadFromFile(Path.Combine(LOCAL_CSV_PATH, $"{tableName}.csv"));
             List<string[]> rows = CSVSerializer.ParseCSV(data, '|');
 
             string tableNameUpper = $"{tableName[0].ToString().ToUpper()}{tableName.Substring(1).ToLower() }";
@@ -101,7 +101,7 @@ public partial class DataManager
     private static void GenConfigTableData(StringBuilder sb)
     {
         sb.AppendLine();
-        var data = Utill.LoadFromFile(Path.Combine(LOCAL_CSV_PATH, CONFIG_TABLE_NAME));
+        var data = Util.LoadFromFile(Path.Combine(LOCAL_CSV_PATH, CONFIG_TABLE_NAME));
         List<string[]> rows = CSVSerializer.ParseCSV(data, '|');
 
         Enumerable.Range(2, rows.Count - 2).ToList().ForEach(i =>
@@ -145,7 +145,7 @@ public partial class DataManager
     }
     private static void GenTableEnum(StringBuilder sb)
     {
-        var data = Utill.LoadFromFile(Path.Combine(LOCAL_CSV_PATH, ENUM_TABLE_NAME));
+        var data = Util.LoadFromFile(Path.Combine(LOCAL_CSV_PATH, ENUM_TABLE_NAME));
         List<string[]> rows = CSVSerializer.ParseCSV(data, '|');
 
         HashSet<string> keySet = new HashSet<string>();
