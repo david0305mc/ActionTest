@@ -1,109 +1,153 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public struct PopupVar
+public readonly struct PopupData
 {
-    public string popupName;
-    public int stateNum;
+    public string PopupName { get; }
+    public int StateNum { get; }
+
+    public PopupData(string popupName, int stateNum)
+    {
+        PopupName = popupName ?? throw new ArgumentNullException(nameof(popupName));
+        StateNum = stateNum;
+    }
 }
 
 public class UIManager : Singletone<UIManager>
 {
-    [SerializeField] private Transform canvasTrn;
+    [SerializeField] private Transform canvasTransform;
 
-    private List<Popup> makePopups = new List<Popup>(1000);
+    private readonly Dictionary<string, Popup> popupCache = new Dictionary<string, Popup>();
+    private readonly Stack<Popup> activePopups = new Stack<Popup>();
+    private readonly Queue<PopupData> pendingPopups = new Queue<PopupData>();
 
-    private Stack<Popup> openPopups = new Stack<Popup>(100);
-    private Queue<PopupVar> pendingPopupVars = new Queue<PopupVar>(100);
+    private const string POPUP_PREFAB_PATH = Define.PathPopupPrefab;
 
+    #region Unity Lifecycle
     private void Update()
+    {
+        HandleInput();
+    }
+    #endregion
+
+    #region Public Methods
+    /// <summary>
+    /// íŒì—…ì„ ì—´ê¸° ìœ„í•œ ë©”ì„œë“œ
+    /// </summary>
+    /// <param name="popupName">íŒì—… ì´ë¦„</param>
+    /// <param name="stateNum">íŒì—… ìƒíƒœ (ê¸°ë³¸ê°’: 0)</param>
+    /// <param name="immediate">ì¦‰ì‹œ í‘œì‹œ ì—¬ë¶€ (ê¸°ë³¸ê°’: false)</param>
+    /// <exception cref="ArgumentNullException">popupNameì´ nullì¸ ê²½ìš°</exception>
+    public void OpenPopup(string popupName, int stateNum = 0, bool immediate = false)
+    {
+        if (string.IsNullOrEmpty(popupName))
+            throw new ArgumentNullException(nameof(popupName));
+
+        if (immediate || CanShowPopupImmediately())
+        {
+            ShowPopup(popupName, stateNum);
+        }
+        else
+        {
+            QueuePopup(popupName, stateNum);
+        }
+    }
+
+    /// <summary>
+    /// í˜„ì¬ í™œì„±í™”ëœ ìµœìƒìœ„ íŒì—…ì„ ë‹«ìŠµë‹ˆë‹¤.
+    /// </summary>
+    public void ClosePopup()
+    {
+        if (!activePopups.Any())
+        {
+            Debug.LogWarning("No active popups to close.");
+            return;
+        }
+
+        CloseTopPopup();
+        ProcessPendingPopups();
+    }
+    #endregion
+
+    #region Private Methods
+    private void HandleInput()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             ClosePopup();
         }
-        //else if (Input.GetKeyDown(KeyCode.A))
-        //{
-        //    OpenPopup(Define.PopupOk);
-        //}
-        //else if (Input.GetKeyDown(KeyCode.S))
-        //{
-        //    OpenPopup(Define.PopupYesNo);
-        //}
     }
 
-    /// <summary>
-    /// pName = È£ÃâÇÒ ÆË¾÷ÀÌ¸§
-    /// sNum = ÆË¾÷ÀÇ »óÅÂ (±âº»°ªÀº 0)
-    /// isNow = ÆË¾÷ÀÌ ¶á »óÅÂ¿¡¼­ ±× À§¿¡ È£ÃâÇÒ ÆË¾÷ÀÎ°æ¿ì (±âº»°ªÀº flase)
-    /// </summary>
-    /// <param name="pName"></param>
-    /// <param name="sNum"></param>
-    /// <param name="isNow"></param>
-    public void OpenPopup(string pName, int sNum = 0, bool isNow = false)
+    private bool CanShowPopupImmediately()
     {
-        if (isNow || (openPopups.Count <= 0 && pendingPopupVars.Count <= 0))
-            SetNowPopup(pName, sNum);
-        else
-            SetPendingPopup(pName, sNum);
+        return !activePopups.Any() && !pendingPopups.Any();
     }
 
-    public void SetNowPopup(string pName, int sNum = 0)
+    private void ShowPopup(string popupName, int stateNum)
     {
-        Popup pop;
-        Popup makePop;
-
-        if (makePopups.Any(r => r.popupName == pName))
+        var popup = GetOrCreatePopup(popupName);
+        if (popup != null)
         {
-            pop = makePopups.SingleOrDefault(r => r.popupName == pName);
-            if (pop == null)
-            {
-                Debug.LogError(pName + " is null.");
-                return;
-            }
-
-            openPopups.Push(pop);
-            pop.OpenPopup(pName, sNum);
-        }
-        else
-        {
-            makePop = (Popup)ObjectManager.Instance.GetGameObject(Define.PathPopupPrefab, pName, canvasTrn)?.GetComponent(typeof(Popup));
-            if (makePop == null)
-            {
-                Debug.LogError(pName + " is null.");
-                return;
-            }
-            makePop.gameObject.SetActive(false);
-            makePopups.Add(makePop);
-
-            openPopups.Push(makePop);
-            makePop.OpenPopup(pName, sNum);
+            activePopups.Push(popup);
+            popup.OpenPopup(popupName, stateNum);
         }
     }
 
-    public void SetPendingPopup(string pName, int sNum = 0)
+    private void QueuePopup(string popupName, int stateNum)
     {
-        PopupVar popupVar = new PopupVar();
-        popupVar.popupName = pName;
-        popupVar.stateNum = sNum;
-
-        pendingPopupVars.Enqueue(popupVar);
+        pendingPopups.Enqueue(new PopupData(popupName, stateNum));
     }
 
-    public void ClosePopup()
+    private Popup GetOrCreatePopup(string popupName)
     {
-        if (openPopups.Count <= 0)
+        if (popupCache.TryGetValue(popupName, out var existingPopup))
         {
-            Debug.LogError("openPopups.Count is Zero");
-            return;
+            return existingPopup;
         }
 
-        openPopups.Pop().ClosePopup();
-        if (openPopups.Count <= 0 && pendingPopupVars.Count > 0)
+        var newPopup = CreatePopup(popupName);
+        if (newPopup != null)
         {
-            SetNowPopup(pendingPopupVars.First().popupName, pendingPopupVars.First().stateNum);
-            pendingPopupVars.Dequeue();
+            popupCache[popupName] = newPopup;
+        }
+        return newPopup;
+    }
+
+    private Popup CreatePopup(string popupName)
+    {
+        var popupObject = ObjectManager.Instance.GetGameObject(POPUP_PREFAB_PATH, popupName, canvasTransform);
+        if (popupObject == null)
+        {
+            Debug.LogError($"Failed to create popup: {popupName}");
+            return null;
+        }
+
+        var popup = popupObject.GetComponent<Popup>();
+        if (popup == null)
+        {
+            Debug.LogError($"Popup component not found on: {popupName}");
+            return null;
+        }
+
+        popup.gameObject.SetActive(false);
+        return popup;
+    }
+
+    private void CloseTopPopup()
+    {
+        var popup = activePopups.Pop();
+        popup.ClosePopup();
+    }
+
+    private void ProcessPendingPopups()
+    {
+        if (!activePopups.Any() && pendingPopups.Any())
+        {
+            var nextPopup = pendingPopups.Dequeue();
+            ShowPopup(nextPopup.PopupName, nextPopup.StateNum);
         }
     }
+    #endregion
 }
